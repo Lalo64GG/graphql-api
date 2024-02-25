@@ -32,9 +32,9 @@ export const typeDefs = `
 
     type Query {
         movies: [Movie]
-        movie(id: ID!): [Movie]
+        movie(id: ID!): Movie
         users: [User]
-        user(id: ID!): [User]
+        user(id: ID!): User
     }
 
     type Mutation {
