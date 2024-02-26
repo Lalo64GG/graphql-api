@@ -6,6 +6,14 @@ export const typeDefs = `
         director: String,
     }
 
+    type Serie{
+        id: ID,
+        title: String,
+        year: Int,
+        director: String,
+        img: String
+    }
+
     type User {
         id: ID,
         name: String,
@@ -17,6 +25,13 @@ export const typeDefs = `
         title: String!,
         year: Int!,
         director: String!
+    }
+
+    input SeriesInput{
+        title: String!,
+        year: Int!,
+        director: String!,
+        img: String!
     }
 
     input UserInput{
@@ -33,6 +48,10 @@ export const typeDefs = `
     type Query {
         movies: [Movie]
         movie(id: ID!): Movie
+
+        series: [Serie]
+        serie(id: ID!): Serie
+
         users: [User]
         user(id: ID!): User
     }
@@ -42,9 +61,14 @@ export const typeDefs = `
         updateMovie(id: ID!, input: MovieInput): Movie
         deleteMovie(id: ID!): Boolean
 
+        createSerie(input: SeriesInput): Serie
+        updateSerie(id: ID!, input: SeriesInput): Serie
+        deleteSerie(id: ID!): Boolean
+
         createUser(input: UserInput): User
         updateUser(id: ID!, input: UserInput): User
         deleteUser(id: ID!): Boolean
+
 
         login(input: LoginInput): Boolean
 

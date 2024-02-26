@@ -10,16 +10,7 @@ config();
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    // Use type assertion to indicate that 'subscriptions' is recognized
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    subscriptions: {
-        onConnect: (connectionParams: any, webSocket: any, context: any) => {
-            console.log('Client connected!');
-            // You can perform additional actions when a client connects
-        },
-    },
-} as any); // Use type assertion here as well
+}); 
 
 const PORT = parseInt(process.env.PORT || "4000");
 
