@@ -20,6 +20,7 @@ export const handleUserWebhookData = async (data: any) => {
 
         const insertQuery = 'INSERT INTO users (username, email) VALUES (?, ?)';
         await pool.execute(insertQuery, [data.username, data.email]);
+        //notificar (id)
 
         return 'Datos de usuario del webhook procesados correctamente';
     } catch (error) {
@@ -27,5 +28,6 @@ export const handleUserWebhookData = async (data: any) => {
         throw new Error('Ocurrió un error al procesar los datos de usuario del webhook');
     }
 };
+
 
 

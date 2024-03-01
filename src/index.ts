@@ -4,6 +4,8 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { config } from "dotenv";
 import { typeDefs } from "./graphql/schema"; 
 import { resolvers } from "./graphql/resolvers";
+// import { notifyDiscord } from "../src/utils/notifyDiscord";
+
 
 config();
 
@@ -28,3 +30,4 @@ const PORT = parseInt(process.env.PORT || "4000");
 })();
 
 console.log("OK!");
+// notifyDiscord("Prueba de mensaje a Discord desde la aplicación");
