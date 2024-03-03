@@ -17,4 +17,4 @@ export const user =  async (_parent: any, { id }: any) => {
         console.error("Error al obtener la película:", error);
         throw new Error("Error al obtener la película");
     }
-}
+} 

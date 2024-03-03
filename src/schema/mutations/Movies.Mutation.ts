@@ -1,5 +1,5 @@
 import pool from "../../config/config";
-import { notifyDiscord } from "../../utils/notifyDiscord";
+import { notifyEvent } from "../../utils/notifyDiscord";
 
 export const createMovie = async (_parent: any, { input }: any) => {
     try {
@@ -9,6 +9,7 @@ export const createMovie = async (_parent: any, { input }: any) => {
         if ('affectedRows' in result && result.affectedRows !== 1) {
             throw new Error('Error al insertar la película');
         }
+        notifyEvent(1);
 
         // Obtener detalles de la fila recién insertada
         if ('insertId' in result) {
@@ -17,8 +18,6 @@ export const createMovie = async (_parent: any, { input }: any) => {
             if ('length' in insertedRow && insertedRow.length !== 1) {
                 throw new Error('Error al obtener los detalles de la película recién insertada');
             }
-
-            await notifyDiscord(`Se ha creado una nueva película: ${input.title}`);
             
             return {
                 ...input,
@@ -40,7 +39,6 @@ export const updateMovie = async (_parent: any, { id, input }: any) => {
 
         // Verificamos si result es un objeto OkPacket o ResultSetHeader
         if ('affectedRows' in result && result.affectedRows > 0) {
-            await notifyDiscord(`Se ha actualizado la película con ID ${id}`);
             return {
                 id,
                 ...input,
@@ -63,7 +61,6 @@ export const deleteMovie = async (_parent: any, { id }: any) => {
             throw new Error(`No se encontró ninguna película con el ID ${id}`);
         }
 
-        await notifyDiscord(`Se ha eliminado la película con ID ${id}`);
         return true;
     } catch (error) {
         console.error("Error al eliminar la película:", error);

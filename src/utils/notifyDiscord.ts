@@ -1,28 +1,28 @@
-import fetch from "node-fetch"; 
+import * as WebhookRepository from '../service/webhook/webhook.Service';
+import { GraphQLError } from 'graphql';
 
-export const notifyDiscord = async (message: string) => {
-  const webhookURL = "https://discord.com/api/webhooks/1212931448818892830/6D0U34r_aofCXr4VuFalsuPFfIZqdgGHbfimbeeYUfaWp02i_Hyz2jpzbVun_EBKyowc"; 
-
-  const body = {
-    content: message,
-  };
-
+export const notifyEvent = async (id: number) => {
   try {
-    const response = await fetch(webhookURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+    const webhooks : any = await WebhookRepository.getByEvent(id);
+    webhooks.map( async (webhook : any) => {
+      const body = {
+        content: webhook.name
+      }
+      const req = {
+        method: "POST",
+        headers: { "Content-Type" : "application/json"},
+        body: JSON.stringify(body)
+      }
+      console.log(webhook.url);
+      const res = await fetch(webhook.url, req);
+      
+      if(!res.ok){
+        throw new Error('Error al notificar');
+      }
 
-    if (!response.ok) {
-      console.error("Error al enviar el mensaje a Discord:", response.statusText);
-      return false;
-    }
-
-    console.log("Mensaje enviado a Discord con éxito");
-    return true;
-  } catch (error) {
-    console.error("Error al enviar el mensaje a Discord:", error);
-    return false;
+      console.log('Ha sido notificado');
+    })
+  } catch (error : any) {
+    throw new GraphQLError(error);
   }
-};
+}

@@ -1,4 +1,21 @@
 export const typeDefs = `
+    type Webhook {
+        id: ID
+        id_usuario: ID
+        url: String
+    }
+
+    type Event {
+        id: ID
+        name: String
+    }
+
+    type WebhookEvent {
+        id: ID
+        id_webhook: ID
+        id_event: ID
+    }
+
     type Movie {
         id: ID,
         title: String,
@@ -6,7 +23,7 @@ export const typeDefs = `
         director: String,
     }
 
-    type Serie{
+    type Serie {
         id: ID,
         title: String,
         year: Int,
@@ -21,26 +38,26 @@ export const typeDefs = `
         password: String,
     }
 
-    input MovieInput{ 
+    input MovieInput { 
         title: String!,
         year: Int!,
         director: String!
     }
 
-    input SeriesInput{
+    input SeriesInput {
         title: String!,
         year: Int!,
         director: String!,
         img: String!
     }
 
-    input UserInput{
+    input UserInput {
         name: String!,
-        email: String!
+        email: String!,
         password: String!
     }
 
-    input LoginInput{
+    input LoginInput {
         email: String!,
         password: String!
     }
@@ -49,7 +66,7 @@ export const typeDefs = `
         movies: [Movie]
         movie(id: ID!): Movie
 
-        series: [Serie]
+        series(offset: Int, limit: Int): [Serie]  # Agregar offset y limit para paginación
         serie(id: ID!): Serie
 
         users: [User]
@@ -65,12 +82,18 @@ export const typeDefs = `
         updateSerie(id: ID!, input: SeriesInput): Serie
         deleteSerie(id: ID!): Boolean
 
+        createWebhook(id_usuario: ID, url: String) : Webhook
+        createEvent(name: String) : Event
+        createWebhookEvent(id_webhook: ID, id_event: ID) : WebhookEvent
+
         createUser(input: UserInput): User
         updateUser(id: ID!, input: UserInput): User
         deleteUser(id: ID!): Boolean
 
-
-        login(input: LoginInput): Boolean
-
+        login(input: LoginInput): AuthPayload
     }
-`
+
+    type AuthPayload {
+        token: String
+    }
+`;

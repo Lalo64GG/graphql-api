@@ -1,4 +1,5 @@
 import pool from "../../config/config";
+import { notifyEvent } from "../../utils/notifyDiscord";
 
 export const createUser =  async (_parent: any, { input }: any) => {
     try {
@@ -7,6 +8,7 @@ export const createUser =  async (_parent: any, { input }: any) => {
         if ('affectedRows' in result && result.affectedRows !== 1) {
             throw new Error('Error al insertar el usuario');
         }
+        notifyEvent(1);
 
         // Devuelve más información en la respuesta si es necesario
         return {
